@@ -1,72 +1,100 @@
-// Clase Pila de Libros
-class PilaLibros {
-    constructor() {
-        this.pila = [];  // Creamos un array vacío para almacenar los libros
-    }
-
-    // Método para agregar un nuevo libro a la pila
-    push(libro) {
-        this.pila.push(libro);  // Añadimos el libro al final del array
-    }
-
-    // Método para quitar y devolver el último libro añadido (LIFO)
-    pop() {
-        if (this.pila.length === 0) {
-            console.log("La pila está vacía");  // Si la pila está vacía, no podemos quitar un libro
-            return null;
-        }
-        return this.pila.pop();  // Quitamos y devolvemos el último libro
-    }
-
-    // Método para ver el último libro sin quitarlo de la pila
-    peek() {
-        if (this.pila.length === 0) {
-            console.log("La pila está vacía");
-            return null;
-        }
-        return this.pila[this.pila.length - 1];  // Devolvemos el último libro
-    }
-
-    // Método para conocer el número de libros en la pila
-    size() {
-        return this.pila.length;  // Devolvemos el tamaño de la pila
-    }
-
-    // Método para imprimir los detalles de todos los libros en la pila
-    imprimirPila() {
-        if (this.pila.length === 0) {
-            console.log("La pila está vacía");
-            return;
-        }
-
-        console.log("Pila de libros:");
-        this.pila.forEach((libro, index) => {
-            console.log(`Libro ${index + 1}: Nombre: ${libro.nombre}, ISBN: ${libro.isbn}, Autor: ${libro.autor}, Editorial: ${libro.editorial}`);
-        });
+// Clase Nodo que representa cada tarea (TODO)
+class Nodo {
+    constructor(titulo, descripcion) {
+        this.titulo = titulo;  // El título de la tarea
+        this.descripcion = descripcion;  // La descripción de la tarea
+        this.siguiente = null;  // Puntero al siguiente nodo (tarea)
     }
 }
 
-// Ejemplo de uso
-const pilaLibros = new PilaLibros();
+// Clase ListaEnlazada para manejar la lista de tareas
+class ListaEnlazada {
+    constructor() {
+        this.cabeza = null;  // El primer nodo de la lista (cabeza)
+        this.tamano = 0;  // El tamaño de la lista
+    }
 
-// Crear algunos libros de ejemplo
-const libro1 = { nombre: "Cien años de soledad", isbn: "978-84-376-0494-7", autor: "Gabriel García Márquez", editorial: "Sudamericana" };
-const libro2 = { nombre: "El amor en los tiempos del cólera", isbn: "978-84-376-0495-4", autor: "Gabriel García Márquez", editorial: "Sudamericana" };
-const libro3 = { nombre: "Crónica de una muerte anunciada", isbn: "978-84-376-0496-1", autor: "Gabriel García Márquez", editorial: "Sudamericana" };
+    // Método para añadir una tarea al final de la lista
+    append(titulo, descripcion) {
+        const nuevaTarea = new Nodo(titulo, descripcion);  // Creamos un nuevo nodo (tarea)
 
-// Agregar los libros a la pila
-pilaLibros.push(libro1);
-pilaLibros.push(libro2);
-pilaLibros.push(libro3);
+        if (this.cabeza === null) {  // Si la lista está vacía
+            this.cabeza = nuevaTarea;  // La nueva tarea es la cabeza de la lista
+        } else {
+            let actual = this.cabeza;
+            while (actual.siguiente) {  // Recorremos hasta encontrar el último nodo
+                actual = actual.siguiente;
+            }
+            actual.siguiente = nuevaTarea;  // Añadimos la nueva tarea al final
+        }
+        this.tamano++;  // Aumentamos el tamaño de la lista
+    }
 
-// Imprimir la pila de libros
-pilaLibros.imprimirPila();
+    // Método para imprimir todas las tareas
+    imprimirLista() {
+        if (this.cabeza === null) {
+            console.log("La lista está vacía");  // Si la lista está vacía
+            return;
+        }
 
-// Ver el último libro añadido sin quitarlo
-console.log("Último libro añadido:", pilaLibros.peek());
+        let actual = this.cabeza;
+        while (actual) {  // Recorremos cada nodo y lo imprimimos
+            console.log(`Tarea: ${actual.titulo}, Descripción: ${actual.descripcion}`);
+            actual = actual.siguiente;
+        }
+    }
 
-// Quitar el último libro de la pila
-console.log("Libro quitado:", pilaLibros.pop());
+    // Método para devolver el tamaño de la lista
+    size() {
+        return this.tamano;  // Devolvemos el número total de tareas
+    }
 
-// Imprimir la pila actualizada
-pilaLibros.imprimirPila();
+    // Método para eliminar una tarea por su título
+    eliminar(titulo) {
+        if (this.cabeza === null) {
+            console.log("La lista está vacía, no hay tareas que eliminar");
+            return;
+        }
+
+        if (this.cabeza.titulo === titulo) {  // Si la tarea a eliminar es la primera
+            this.cabeza = this.cabeza.siguiente;
+            this.tamano--;
+            console.log(`Tarea "${titulo}" eliminada`);
+            return;
+        }
+
+        let actual = this.cabeza;
+        let anterior = null;
+
+        while (actual && actual.titulo !== titulo) {  // Buscamos la tarea a eliminar
+            anterior = actual;
+            actual = actual.siguiente;
+        }
+
+        if (actual === null) {  // Si no encontramos la tarea
+            console.log(`Tarea "${titulo}" no encontrada`);
+            return;
+        }
+
+        anterior.siguiente = actual.siguiente;  // Eliminamos la tarea enlazando el anterior con el siguiente
+        this.tamano--;
+        console.log(`Tarea "${titulo}" eliminada`);
+    }
+}
+
+// Ejemplo de uso de la lista de tareas (TODO list)
+const listaTareas = new ListaEnlazada();
+
+// Agregamos algunas tareas de ejemplo
+listaTareas.append("Comprar víveres", "Ir al supermercado y comprar frutas y verduras");
+listaTareas.append("Estudiar JavaScript", "Repasar clases y objetos en JavaScript");
+listaTareas.append("Ejercicio", "Hacer 30 minutos de ejercicio en casa");
+
+// Imprimimos la lista de tareas
+listaTareas.imprimirLista();
+
+// Eliminamos una tarea
+listaTareas.eliminar("Estudiar JavaScript");
+
+// Imprimimos la lista actualizada
+listaTareas.imprimirLista();
