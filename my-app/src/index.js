@@ -1,16 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import FirstApp from "./Components/FirstApp";
-import CounterApp from "./Components/CounterApp";
-import CategoryApp from "./Components/CategoryApp";
+import CharacterGrid from "./Components/CharacterGrid";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <CategoryApp />
+    <CharacterGrid name={"Rick"} />
   </React.StrictMode>
 );
 
