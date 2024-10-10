@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import CharacterGrid from "./Components/CharacterGrid";
+import CharacterList from "./Components/CharacterList";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <CharacterGrid name={"Rick"} />
+    <CharacterList name={'Rick'} />
   </React.StrictMode>
 );
 
