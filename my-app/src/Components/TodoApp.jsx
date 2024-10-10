@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TodoList from './TodoList'; // Importamos el componente TodoList
 import TodoForm from './TodoForm'; // Importamos el componente TodoForm
+import useTodo from '../Helpers/useTodo'; // Importamos el Custom Hook
 
 const TodoApp = () => {
-    const [todos, setTodos] = useState([]); // Estado para la lista de tareas
-
-    const addTodo = (newTodo) => {
-        setTodos([...todos, newTodo]); // Agrega la nueva tarea a la lista
-    };
+    const { todos, addTodo, deleteTodo, toggleTodo, countTodos, countPendingTodos } = useTodo(); // Usamos el Custom Hook
 
     return (
         <div>
             <h1>Lista de Tareas</h1>
             <TodoForm addTodo={addTodo} /> {/* Pasamos la función addTodo como prop */}
-            <TodoList todos={todos} /> {/* Pasamos la lista de tareas como prop */}
+            <h2>Total de Tareas: {countTodos()}</h2>
+            <h2>Tareas Pendientes: {countPendingTodos()}</h2>
+            <TodoList todos={todos} deleteTodo={deleteTodo} toggleTodo={toggleTodo} /> {/* Pasamos las funciones como props */}
         </div>
     );
 };

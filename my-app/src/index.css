@@ -28,3 +28,7 @@ form {
 input {
   margin-right: 5px;
 }
+
+span {
+  cursor: pointer;
+}
