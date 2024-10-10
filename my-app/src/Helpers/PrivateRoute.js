@@ -1,12 +1,15 @@
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const PrivateRoute = ({ element }) => {
-    const { user } = useAuth(); // Obtener el usuario del contexto
+    const user = useSelector((state) => state.auth.user); // Obtener el usuario del estado de Redux
 
-    // Retornamos un Route que redirige a la página de login si no hay usuario
-    return user ? element : <Navigate to="/login" />;
+    if (user) {
+        return element; // Si el usuario está autenticado, retornamos el elemento (ruta protegida)
+    } else {
+        return <Navigate to="/login" replace />; // Usar 'replace' para no dejar rastro en el historial
+    }
 };
 
 export default PrivateRoute;

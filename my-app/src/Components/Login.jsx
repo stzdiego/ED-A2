@@ -1,31 +1,58 @@
 import React, { useState } from 'react';
-import { useAuth } from '../Helpers/AuthContext';
+import { auth } from '../firebaseConfig';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../Store/authSlice';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const [username, setUsername] = useState('');
-    const { login } = useAuth();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    const provider = new GoogleAuthProvider();
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleEmailLogin = async (e) => {
         e.preventDefault();
-        login(username); // Llamar a la función de login del contexto
-        navigate('/'); // Redirigir a la página principal
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            dispatch(setUser({ uid: userCredential.user.uid, email: userCredential.user.email }));
+            navigate('/'); // Redirige a la página principal
+        } catch (error) {
+            console.error(error);
+        }
     };
 
+    const handleGoogleLogin = async () => {
+        try {
+            const userCredential = await signInWithPopup(auth, provider);
+            dispatch(setUser({ uid: userCredential.user.uid, email: userCredential.user.email }));
+            navigate('/'); // Redirige a la página principal
+        } catch (error) {
+            console.error(error);
+        }
+    };
     return (
         <div>
             <h2>Iniciar Sesión</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleEmailLogin}>
                 <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Ingrese su nombre de usuario"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Correo Electrónico"
+                    required
+                />
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Contraseña"
                     required
                 />
                 <button type="submit">Iniciar Sesión</button>
             </form>
+            <button onClick={handleGoogleLogin}>Iniciar Sesión con Google</button>
         </div>
     );
 };
