@@ -2,13 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import CharacterList from "./Components/CharacterList";
-import MultipleCustomHooks from "./Components/MultipleCustomHooks";
+import TodoApp from "./Components/TodoApp";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <MultipleCustomHooks />
+    <TodoApp />
   </React.StrictMode>
 );
 

@@ -12,15 +12,19 @@ code {
     monospace;
 }
 
-blockquote {
-  border-left: 4px solid #ccc;
-  padding: 10px;
-  margin: 20px 0;
-  font-style: italic;
+ul {
+  list-style-type: none;
+padding: 0;
 }
 
-button {
-  margin: 5px;
-  padding: 10px 15px;
-  font-size: 16px;
+li {
+  margin: 5px 0;
+}
+
+form {
+  margin: 10px 0;
+}
+
+input {
+  margin-right: 5px;
 }
