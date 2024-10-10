@@ -32,3 +32,30 @@ input {
 span {
   cursor: pointer;
 }
+
+.nav {
+  background-color: #333; /* Color de fondo de la barra de navegación */
+  padding: 10px;
+}
+
+.nav ul {
+  list-style-type: none; /* Quitar puntos de la lista */
+  padding: 0; /* Quitar padding */
+  margin: 0; /* Quitar margin */
+  display: flex; /* Usamos flex para alinear horizontalmente */
+}
+
+.nav li {
+  margin-right: 20px; /* Espaciado entre los elementos */
+}
+
+.nav a {
+  color: white; /* Color del texto */
+  text-decoration: none; /* Sin subrayado */
+  padding: 8px; /* Espaciado interno */
+}
+
+.nav .active {
+  font-weight: bold; /* Resaltar texto de la ruta activa */
+  border-bottom: 2px solid #fff; /* Subrayar la ruta activa */
+}
