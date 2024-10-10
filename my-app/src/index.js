@@ -5,11 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import FirstApp from "./Components/FirstApp";
 import CounterApp from "./Components/CounterApp";
+import CategoryApp from "./Components/CategoryApp";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <CounterApp />
+    <CategoryApp />
   </React.StrictMode>
 );
 
