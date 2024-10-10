@@ -1,100 +1,85 @@
-// Clase Nodo que representa cada tarea (TODO)
+// Clase Nodo que representa a una Persona o una Ciudad
 class Nodo {
-    constructor(titulo, descripcion) {
-        this.titulo = titulo;  // El título de la tarea
-        this.descripcion = descripcion;  // La descripción de la tarea
-        this.siguiente = null;  // Puntero al siguiente nodo (tarea)
+    constructor(nombre, tipo, edad = null) {
+        this.nombre = nombre;  // Nombre del nodo (persona o ciudad)
+        this.tipo = tipo;  // Tipo de nodo ('persona' o 'ciudad')
+        this.edad = edad;  // Edad de la persona (solo aplica si es tipo 'persona')
+        this.adjacencia = [];  // Lista de nodos adyacentes (amigos o ciudades)
+    }
+
+    // Método para agregar una referencia a otro nodo
+    agregarAdyacente(nodo) {
+        this.adjacencia.push(nodo);  // Añadimos el nodo a la lista de adyacencia
     }
 }
 
-// Clase ListaEnlazada para manejar la lista de tareas
-class ListaEnlazada {
+// Clase Grafo que maneja el conjunto de nodos (personas y ciudades)
+class Grafo {
     constructor() {
-        this.cabeza = null;  // El primer nodo de la lista (cabeza)
-        this.tamano = 0;  // El tamaño de la lista
+        this.nodos = [];  // Lista de nodos del grafo (personas y ciudades)
     }
 
-    // Método para añadir una tarea al final de la lista
-    append(titulo, descripcion) {
-        const nuevaTarea = new Nodo(titulo, descripcion);  // Creamos un nuevo nodo (tarea)
+    // Método para agregar una persona al grafo
+    agregarPersona(nombre, edad, ciudad) {
+        const persona = new Nodo(nombre, 'persona', edad);  // Creamos un nodo de tipo 'persona'
+        const nodoCiudad = this.buscarNodo(ciudad, 'ciudad');  // Buscamos la ciudad en el grafo
 
-        if (this.cabeza === null) {  // Si la lista está vacía
-            this.cabeza = nuevaTarea;  // La nueva tarea es la cabeza de la lista
+        if (nodoCiudad) {
+            persona.agregarAdyacente(nodoCiudad);  // Referenciamos la ciudad a la persona
+            this.nodos.push(persona);  // Añadimos la persona al grafo
         } else {
-            let actual = this.cabeza;
-            while (actual.siguiente) {  // Recorremos hasta encontrar el último nodo
-                actual = actual.siguiente;
+            console.log(`La ciudad ${ciudad} no existe en el grafo.`);
+        }
+    }
+
+    // Método para agregar una ciudad al grafo
+    agregarCiudad(nombre) {
+        const ciudad = new Nodo(nombre, 'ciudad');  // Creamos un nodo de tipo 'ciudad'
+        this.nodos.push(ciudad);  // Añadimos la ciudad al grafo
+    }
+
+    // Método para buscar un nodo por su nombre y tipo (persona o ciudad)
+    buscarNodo(nombre, tipo) {
+        return this.nodos.find(nodo => nodo.nombre === nombre && nodo.tipo === tipo);
+    }
+
+    // Método para imprimir las personas que viven en una ciudad particular
+    imprimirPersonasPorCiudad(ciudad) {
+        const nodoCiudad = this.buscarNodo(ciudad, 'ciudad');  // Buscamos la ciudad en el grafo
+
+        if (!nodoCiudad) {
+            console.log(`La ciudad ${ciudad} no existe en el grafo.`);
+            return;
+        }
+
+        console.log(`Personas que viven en ${ciudad}:`);
+        this.nodos.forEach(nodo => {
+            if (nodo.tipo === 'persona' && nodo.adjacencia.includes(nodoCiudad)) {
+                console.log(`- ${nodo.nombre}, ${nodo.edad} años`);
             }
-            actual.siguiente = nuevaTarea;  // Añadimos la nueva tarea al final
-        }
-        this.tamano++;  // Aumentamos el tamaño de la lista
-    }
-
-    // Método para imprimir todas las tareas
-    imprimirLista() {
-        if (this.cabeza === null) {
-            console.log("La lista está vacía");  // Si la lista está vacía
-            return;
-        }
-
-        let actual = this.cabeza;
-        while (actual) {  // Recorremos cada nodo y lo imprimimos
-            console.log(`Tarea: ${actual.titulo}, Descripción: ${actual.descripcion}`);
-            actual = actual.siguiente;
-        }
-    }
-
-    // Método para devolver el tamaño de la lista
-    size() {
-        return this.tamano;  // Devolvemos el número total de tareas
-    }
-
-    // Método para eliminar una tarea por su título
-    eliminar(titulo) {
-        if (this.cabeza === null) {
-            console.log("La lista está vacía, no hay tareas que eliminar");
-            return;
-        }
-
-        if (this.cabeza.titulo === titulo) {  // Si la tarea a eliminar es la primera
-            this.cabeza = this.cabeza.siguiente;
-            this.tamano--;
-            console.log(`Tarea "${titulo}" eliminada`);
-            return;
-        }
-
-        let actual = this.cabeza;
-        let anterior = null;
-
-        while (actual && actual.titulo !== titulo) {  // Buscamos la tarea a eliminar
-            anterior = actual;
-            actual = actual.siguiente;
-        }
-
-        if (actual === null) {  // Si no encontramos la tarea
-            console.log(`Tarea "${titulo}" no encontrada`);
-            return;
-        }
-
-        anterior.siguiente = actual.siguiente;  // Eliminamos la tarea enlazando el anterior con el siguiente
-        this.tamano--;
-        console.log(`Tarea "${titulo}" eliminada`);
+        });
     }
 }
 
-// Ejemplo de uso de la lista de tareas (TODO list)
-const listaTareas = new ListaEnlazada();
+// Ejemplo de uso del grafo
+const grafoAmigos = new Grafo();
 
-// Agregamos algunas tareas de ejemplo
-listaTareas.append("Comprar víveres", "Ir al supermercado y comprar frutas y verduras");
-listaTareas.append("Estudiar JavaScript", "Repasar clases y objetos en JavaScript");
-listaTareas.append("Ejercicio", "Hacer 30 minutos de ejercicio en casa");
+// Agregamos algunas ciudades
+grafoAmigos.agregarCiudad("Cali");
+grafoAmigos.agregarCiudad("Bogotá");
+grafoAmigos.agregarCiudad("Medellín");
 
-// Imprimimos la lista de tareas
-listaTareas.imprimirLista();
+// Agregamos algunas personas y las referenciamos a las ciudades donde viven
+grafoAmigos.agregarPersona("Diego", 30, "Cali");
+grafoAmigos.agregarPersona("Juan", 25, "Bogotá");
+grafoAmigos.agregarPersona("Ana", 28, "Cali");
+grafoAmigos.agregarPersona("Laura", 35, "Medellín");
 
-// Eliminamos una tarea
-listaTareas.eliminar("Estudiar JavaScript");
+// Imprimimos las personas que viven en Cali
+grafoAmigos.imprimirPersonasPorCiudad("Cali");
 
-// Imprimimos la lista actualizada
-listaTareas.imprimirLista();
+// Imprimimos las personas que viven en Bogotá
+grafoAmigos.imprimirPersonasPorCiudad("Bogotá");
+
+// Imprimimos las personas que viven en Medellín
+grafoAmigos.imprimirPersonasPorCiudad("Medellín");
