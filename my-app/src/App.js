@@ -1,14 +1,14 @@
 // src/App.jsx
 import React from 'react';
-import Counter from './Components/Counter'; // Importamos el componente Counter
+import ImageManager from './Components/ImageManager'; // Importa el gestor de imágenes
 
 const App = () => {
-  return (
-      <div>
-        <h1>Aplicación de Contador</h1>
-        <Counter /> {/* Usamos el componente Counter */}
-      </div>
-  );
+    return (
+        <div>
+            <h1>Aplicación de Imágenes</h1>
+            <ImageManager /> {/* Renderiza el gestor de imágenes */}
+        </div>
+    );
 };
 
 export default App;
