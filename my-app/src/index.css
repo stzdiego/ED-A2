@@ -12,15 +12,15 @@ code {
     monospace;
 }
 
-.character-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+blockquote {
+  border-left: 4px solid #ccc;
+  padding: 10px;
+  margin: 20px 0;
+  font-style: italic;
 }
 
-.character-item {
-  margin: 10px;
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: center;
+button {
+  margin: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
 }

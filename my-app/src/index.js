@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import CharacterList from "./Components/CharacterList";
+import MultipleCustomHooks from "./Components/MultipleCustomHooks";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <CharacterList name={'Rick'} />
+    <MultipleCustomHooks />
   </React.StrictMode>
 );
 

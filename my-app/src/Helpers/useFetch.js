@@ -1,32 +1,31 @@
 import { useState, useEffect } from 'react';
 
 const useFetch = (url) => {
-    // Definimos los estados para los datos, la carga y el error
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
-            setIsLoading(true); // Indicamos que la carga ha comenzado
+            setIsLoading(true);
             try {
-                const response = await fetch(url); // Realizamos la solicitud
+                const response = await fetch(url);
                 if (!response.ok) {
-                    throw new Error('Error al obtener los datos'); // Manejo de errores
+                    throw new Error('Error al obtener los datos');
                 }
-                const result = await response.json(); // Convertimos a JSON
-                setData(result); // Guardamos los datos en el estado
+                const result = await response.json();
+                setData(result);
             } catch (err) {
-                setError(err.message); // Guardamos el mensaje de error
+                setError(err.message);
             } finally {
-                setIsLoading(false); // Indicamos que la carga ha terminado
+                setIsLoading(false);
             }
         };
 
-        fetchData(); // Llamamos a la función fetchData
-    }, [url]); // Ejecutar de nuevo si la URL cambia
+        fetchData();
+    }, [url]);
 
-    return { data, isLoading, error }; // Retornamos los estados
+    return { data, isLoading, error };
 };
 
 export default useFetch;
